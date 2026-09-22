@@ -7,18 +7,21 @@ Gemessen wird der **Preis der Stabilität** gegen das Optimum – und **wer vors
 
 **Wichtigster Befund der Vorarbeit:** ordnen **beide Seiten allein nach der Fahrzeit**, hat jedes Paar eine gemeinsame Wertung, und es gibt **genau eine** stabile Paarung – die Greedy-Paarung „Billigste Kante zuerst“ der Wurzel-Demo (auf allen getesteten Karten). Dann wären Verband, Vorschlagenden-Umschalter und Manipulation leer. Deshalb hat die Demo drei **Vorliebenmodelle**: *Nur Entfernung* (Greedy ist die stabile Paarung), **Entfernung mit Streuung** (Standard: jede Seite schätzt die Fahrzeit selbst, ±k Minuten, weiter aus der Entfernung abgeleitet) und *Zufall* (unabhängig von den Kosten).
 
-**Einordnung in die Reihe (die Kanten des Graphen):** dieses Stück ersetzt das Ziel „billig“ durch „stabil“. Seine eigenen Schwächen sind die Ansatzpunkte der nächsten: es gibt nur zwei getrennte Seiten (**Stabile Mitbewohner**: dort muss keine stabile Paarung existieren), alles ist vorab bekannt (**Online-Matching**).
+**Einordnung in die Reihe (die Kanten des Graphen):** dieses Stück ersetzt das Ziel „billig“ durch „stabil“. Seine eigenen Schwächen sind die Ansatzpunkte der nächsten: es gibt nur zwei getrennte Seiten (**Stabile Mitbewohner**: dort muss keine stabile Paarung existieren; **Krankenhaus-Zulassung**: many-to-one; **Top Trading Cycles**: jeder besitzt schon etwas statt zu präferieren; **Nierentausch**: Kompatibilität statt Präferenz), alles ist vorab bekannt (**Online-Matching**). Die gesamte Matching-Linie ist inzwischen vollständig gebaut (13 Stücke).
 ```
 greedy-matching-demo (Wurzel: eine gewählte Zuordnung bleibt)                     [gebaut]
   ├─ augmenting-path-demo (Verbesserungswege: Paare optimal, Kosten blind)        [gebaut]
   │    ├─ hopcroft-karp-demo (viele kürzeste Wege je Phase)                       [gebaut]
   │    ├─ hungarian-demo (Ungarische Methode: Paare zuerst, dann Kosten)           [gebaut]
   │    │    └─ auction-algorithm-demo (Auktionsalgorithmus: dezentral)             [gebaut]
-  │    └─ Blossom                                                                  [nicht gebaut]
-  │   Ungarisch + Blossom → Gewichteter Blossom (Konvergenz)                       [nicht gebaut]
+  │    └─ blossom-demo (allgemeine Graphen: ungerade Kreise, Kontraktion)          [gebaut]
+  │        └─ weighted-blossom-demo (Ungarisch + Blossom, Konvergenz)              [gebaut]
   ├─ gale-shapley-demo (Vorlieben statt Kosten, stabil)                            [dieses Stück]
-  │    └─ Stabile Mitbewohner                                                      [nicht gebaut]
-  └─ Online-Matching                                                               [nicht gebaut]
+  │    ├─ stabile-mitbewohner-demo (eine Gruppe statt zwei Seiten)                 [gebaut]
+  │    ├─ krankenhaus-zulassung-demo (many-to-one, Kapazitäten)                    [gebaut]
+  │    └─ top-trading-cycles-demo (Tausch ohne Geld, Wohnungsmarkt)                [gebaut]
+  │         └─ nierentausch-demo (Kompatibilität statt Präferenz, kurze Zyklen)    [gebaut]
+  └─ online-matching-demo (Aufträge kommen nacheinander)                          [gebaut]
 ```
 
 ## Ergebnis (Zahlen aus den Tests)

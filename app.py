@@ -112,7 +112,7 @@ Der Preis der Stabilität ist Geld: die stabile Paarung ist meist teurer als das
 st.caption(
     "Anders als die Fall-Demos im Portfolio, die an einem Anwendungsfall mehrere Verfahren vergleichen, zeigt diese Demo - sechstes Stück der Matching-Linie der \"Konzepte\"-Reihe, unabhängiger Ast neben der Kostenlinie - **ein** Verfahren an einem wachsenden Beispiel. "
     "Eine Besonderheit der Karte: ordnen **beide** Seiten allein nach der Fahrzeit, gibt es genau **eine** stabile Paarung - die Greedy-Paarung der Wurzel-Demo. Damit Vorlieben und Vorschlagende etwas ausmachen, schätzt in der Standardeinstellung jede Seite die Fahrzeit selbst, mit Streuung; ein Umschalter kennt auch Zufallsvorlieben. "
-    "Die Schwächen dieses Stücks sind die Ansatzpunkte der nächsten: **Stabile Mitbewohner** (keine zwei Seiten, eine stabile Paarung existiert nicht immer) und **Online-Matching** - noch nicht gebaut. "
+    "Die Schwächen dieses Stücks sind die Ansatzpunkte der nächsten: **Stabile Mitbewohner** (keine zwei Seiten, eine stabile Paarung existiert nicht immer), **Krankenhaus-Zulassung** (many-to-one), **Top Trading Cycles** (jeder besitzt schon etwas) und **Nierentausch** (Kompatibilität statt Präferenz), dazu **Online-Matching** - alle inzwischen gebaut. "
     "Die Referenz \"Optimum\" ist die Ungarische Methode aus der Demo dazu."
 )
 
@@ -467,15 +467,17 @@ st.markdown(
     """
 | Annahme | Was passiert, wenn sie verletzt ist | Wer setzt an |
 |---|---|---|
-| **Es gibt zwei getrennte Seiten** | Fahrzeuge und Aufträge sind zwei Gruppen. Sollen sich Fahrer untereinander paaren (Mitbewohner), kann es **gar keine** stabile Paarung geben. | **Stabile Mitbewohner** |
-| **Die Vorlieben sind strikt** | Bei Gleichstand in den Listen gibt es schwache und starke Stabilität; die Eindeutigkeit bei reiner Entfernung hängt an unserem Index-Tie-Break. | (nicht gebaut) |
-| **Jeder Agent nimmt genau einen Partner** | Krankenhäuser mit mehreren Stellen (Kapazitäten) brauchen die Variante mit Kontingenten. | (nicht gebaut) |
+| **Es gibt zwei getrennte Seiten** | Fahrzeuge und Aufträge sind zwei Gruppen. Sollen sich Fahrer untereinander paaren (Mitbewohner), kann es **gar keine** stabile Paarung geben. | **Stabile Mitbewohner** (gebaut) |
+| **Die Vorlieben sind strikt** | Bei Gleichstand in den Listen gibt es schwache und starke Stabilität; die Eindeutigkeit bei reiner Entfernung hängt an unserem Index-Tie-Break. | (außerhalb der Linie) |
+| **Jeder Agent nimmt genau einen Partner** | Krankenhäuser mit mehreren Stellen (Kapazitäten) brauchen die Variante mit Kontingenten. | **Krankenhaus-Zulassung** (gebaut) |
 | **Nur Stabilität zählt** | Die stabile Paarung ist oft teurer und hat weniger Paare als das Optimum (Prämie im Median 24,3 % bei Streuung 20; das Optimum ist instabil). Wer Kosten will, nimmt die Ungarische Methode. | **Ungarische Methode**, **Auktionsalgorithmus** (gebaut) |
 | **Alle sagen die Wahrheit** | Vorschlagende können nichts gewinnen, Empfänger schon (Kürzen der Liste): das Verfahren ist nur für eine Seite anreizverträglich. | Mechanismusdesign |
-| **Alles ist vorab bekannt** | Kommen Agenten nacheinander und sind Zusagen bindend, ist nur Online-Matching möglich. | **Online-Matching** |
+| **Jeder besitzt schon etwas, statt nur zu präferieren** | Wohnungsmärkte (jeder tauscht sein eigenes Gut) brauchen Top Trading Cycles statt Deferred Acceptance. | **Top Trading Cycles** (gebaut) |
+| **Präferenz statt medizinischer Kompatibilität** | Nierentausch braucht Kompatibilitätsgraphen und kurze Kreise/Ketten statt freier Präferenzen. | **Nierentausch** (gebaut) |
+| **Alles ist vorab bekannt** | Kommen Agenten nacheinander und sind Zusagen bindend, ist nur Online-Matching möglich. | **Online-Matching** (gebaut) |
 """
 )
-st.caption("Die Nachbarn der Matching-Linie (noch nicht gebaut): Blossom, Gewichteter Blossom, Stabile Mitbewohner und Online-Matching. Bereits gebaut: die Wurzel (Greedy-Matching), die Verbesserungswege, Hopcroft–Karp, die Ungarische Methode, der Auktionsalgorithmus und diese Demo.")
+st.caption("Die Matching-Linie ist inzwischen vollständig gebaut (13 Stücke): die Wurzel (Greedy-Matching), die Verbesserungswege, Hopcroft–Karp, die Ungarische Methode, der Auktionsalgorithmus, Blossom und Gewichteter Blossom, diese Demo, Stabile Mitbewohner, Krankenhaus-Zulassung, Top Trading Cycles, Nierentausch und Online-Matching.")
 
 st.markdown("---")
 
