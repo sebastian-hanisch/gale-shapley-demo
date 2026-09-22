@@ -1,5 +1,7 @@
 # Gale–Shapley – Vorlieben statt Kosten, Stabilität statt Optimum – Streamlit-Demo
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-gale-shapley-demo.streamlit.app/)**
+
 Sechstes Stück der **Matching-Linie** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning", ein **unabhängiger Ast neben der Kostenlinie** (Wurzel: [Greedy-Matching](https://github.com/sebastian-hanisch/greedy-matching-demo)):
 anders als die Fall-Demos im Portfolio (ein Anwendungsfall, mehrere Verfahren im Vergleich) zeigt diese Demo **ein** Verfahren – **Gale–Shapley** (aufgeschobene Annahme) – an einem wachsenden Beispiel.
 Die Ungarische Methode findet die billigste Zuordnung. Hier haben beide Seiten **Vorlieben** (jedes Fahrzeug eine Rangliste der Aufträge, jeder Auftrag eine der Fahrzeuge), und gesucht ist eine **stabile** Paarung: kein **blockierendes Paar**, also kein Fahrzeug und kein Auftrag, die einander lieber hätten als ihre jetzigen Partner. Eine Seite schlägt vor, die andere hält immer den besten Vorschlag und lehnt den Rest ab.
