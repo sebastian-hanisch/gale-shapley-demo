@@ -24,6 +24,7 @@ from gs_presets import (
     init_session_state_defaults,
     load_permalink_settings,
     randomize_seed,
+    seed_widget,
     sync_query_params,
 )
 from gs_scenario import build
@@ -150,17 +151,22 @@ with st.sidebar:
         help="Eine zufällige Karte mit Fahrzeugen und Aufträgen oder eine feste Lehrbuchkarte. Zwei davon haben eigene Vorlieben: gegenläufige (zwei stabile Paarungen) und Knuths 4×4 (zehn stabile Paarungen).",
     )
     if net_key == "random":
+        seed_widget("n_slider")
         n = st.slider("Fahrzeuge", *bounds("n_slider"), key="n_slider", help="Anzahl der Fahrzeuge.")
         st.session_state[KEPT["n_slider"]] = n
+        seed_widget("m_slider")
         m = st.slider("Aufträge", *bounds("m_slider"), key="m_slider", help="Anzahl der Aufträge. Bei ungleich vielen Seiten bleiben Agenten der größeren Seite ohne Partner; die Paarzahl ist trotzdem in jeder stabilen Paarung gleich.")
         st.session_state[KEPT["m_slider"]] = m
+        seed_widget("reach_slider")
         reach = st.slider(
             "Reichweite [min]", *bounds("reach_slider"), key="reach_slider", step=5,
             help="Wie weit ein Paar höchstens auseinander liegen darf (macht die Vorliebenlisten kürzer). Bei nur Entfernung als Vorlieben ist das Optimum bei Reichweite 10 auf 79 von 100 Karten selbst stabil, bei 40 und bei 150 auf keiner.",
         )
         st.session_state[KEPT["reach_slider"]] = reach
+        seed_widget("ballung_slider")
         ballung = st.slider("Ballung [%]", *bounds("ballung_slider"), key="ballung_slider", step=25, help="0 = Fahrzeuge und Aufträge gleichmäßig verteilt, 100 = alle um drei Stadtteile gruppiert.")
         st.session_state[KEPT["ballung_slider"]] = ballung
+        seed_widget("seed_input")
         seed = st.number_input("Zufalls-Seed", *bounds("seed_input"), key="seed_input", step=1)
         st.session_state[KEPT["seed_input"]] = seed
         st.button("🎲 Neue Karte generieren", width="stretch", on_click=randomize_seed, help="Würfelt einen neuen Zufalls-Seed. Die Verteilung über 100 feste Karten weiter unten ändert sich dabei nicht.")
@@ -186,6 +192,7 @@ with pref_col:
         if pref == "noise":
             if not st.session_state.get("_noise_shown") and KEPT["noise_slider"] in st.session_state:
                 st.session_state["noise_slider"] = st.session_state[KEPT["noise_slider"]]          # der zuletzt gewählte Wert kommt zurück, wenn der Regler wieder erscheint
+            seed_widget("noise_slider")
             noise = st.slider("Streuung ± [min]", *bounds("noise_slider"), key="noise_slider", step=C.NOISE_STEP,
                               help="Wie stark die Schätzungen der beiden Seiten auseinanderliegen können. 0 wäre reine Entfernung (eindeutig, = Greedy); je größer, desto mehr stabile Paarungen und desto teurer die Stabilität.")
             st.session_state[KEPT["noise_slider"]] = noise
