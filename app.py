@@ -107,7 +107,7 @@ st.markdown(
     """
 Die Ungarische Methode findet die **billigste** Zuordnung. Aber was, wenn beide Seiten **Vorlieben** haben - jedes Fahrzeug eine Rangliste der Aufträge, jeder Auftrag eine der Fahrzeuge? Dann zählt nicht das Optimum, sondern **Stabilität**: es darf kein **blockierendes Paar** geben,
 also kein Fahrzeug und kein Auftrag, die einander lieber hätten als ihre jetzigen Partner. **Gale–Shapley** (aufgeschobene Annahme) findet immer eine stabile Paarung: eine Seite schlägt vor, die andere hält immer den besten Vorschlag und lehnt den Rest ab.
-Der Preis der Stabilität ist Geld: die stabile Paarung ist meist teurer als das Optimum und hat oft weniger Paare - die Demo misst, wie viel. Und **wer vorschlägt, entscheidet**: der Vorschlagende bekommt seine beste, der Empfänger seine schlechteste stabile Paarung.
+Der Preis der Stabilität ist Geld: die stabile Paarung ist bei gleicher Paarzahl meist teurer als die billigste und hat oft weniger Paare - die Demo misst, wie viel. Und **wer vorschlägt, entscheidet**: der Vorschlagende bekommt seine beste, der Empfänger seine schlechteste stabile Paarung.
 """
 )
 st.caption(
@@ -517,6 +517,6 @@ st.markdown("---")
 
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Matching: von Greedy bis Nierentausch](https://sebastianhanisch.net/konzepte-matching.html)."
 )
