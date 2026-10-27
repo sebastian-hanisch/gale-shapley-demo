@@ -19,6 +19,8 @@ DEFAULT_PREF = "noise"
 NOISE_MIN, NOISE_MAX, NOISE_STEP, DEFAULT_NOISE = 5, 60, 5, 20
 PROPOSER_LABELS = {"V": "Fahrzeuge", "O": "Aufträge"}
 DEFAULT_PROPOSER = "V"
+LAYOUT_LABELS = {"map": "Karte", "bipartit": "Zwei Seiten"}
+DEFAULT_LAYOUT = "map"
 
 # --- feste Seed-Mengen (dieselben wie in den Vorgängerdemos; unabhängig vom Nutzer-Seed) --------------------------------------------
 DIST_SEEDS = tuple(range(100000, 100100))
@@ -36,7 +38,7 @@ COLORS = {"matched": "#1f77b4", "propose": "#2ca02c", "reject": "#d62728", "disp
           "greedy": "#8c564b", "stable_v": "#1f77b4", "stable_o": "#2ca02c"}
 
 # --- Presets ------------------------------------------------------------------------------------------------------------------
-_BASE = dict(net="random", pref=DEFAULT_PREF, noise=DEFAULT_NOISE, prop=DEFAULT_PROPOSER, n=DEFAULT_N, m=DEFAULT_M, reach=DEFAULT_REACH, ballung=DEFAULT_BALLUNG, seed=DEFAULT_SEED)
+_BASE = dict(net="random", pref=DEFAULT_PREF, noise=DEFAULT_NOISE, prop=DEFAULT_PROPOSER, layout=DEFAULT_LAYOUT, n=DEFAULT_N, m=DEFAULT_M, reach=DEFAULT_REACH, ballung=DEFAULT_BALLUNG, seed=DEFAULT_SEED)
 PRESETS = {
     "⚖️ Die billigste Kante klaut": {**_BASE, "net": "steal", "pref": "dist"},
     "🔀 Vorschlagende zählen": {**_BASE, "net": "cross2"},

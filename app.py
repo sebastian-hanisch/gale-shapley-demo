@@ -107,7 +107,7 @@ st.markdown(
     """
 Die Ungarische Methode findet die **billigste** Zuordnung. Aber was, wenn beide Seiten **Vorlieben** haben - jedes Fahrzeug eine Rangliste der Aufträge, jeder Auftrag eine der Fahrzeuge? Dann zählt nicht das Optimum, sondern **Stabilität**: es darf kein **blockierendes Paar** geben,
 also kein Fahrzeug und kein Auftrag, die einander lieber hätten als ihre jetzigen Partner. **Gale–Shapley** (aufgeschobene Annahme) findet immer eine stabile Paarung: eine Seite schlägt vor, die andere hält immer den besten Vorschlag und lehnt den Rest ab.
-Der Preis der Stabilität ist Geld: die stabile Paarung ist bei gleicher Paarzahl meist teurer als die billigste und hat oft weniger Paare - die Demo misst, wie viel. Und **wer vorschlägt, entscheidet**: der Vorschlagende bekommt seine beste, der Empfänger seine schlechteste stabile Paarung.
+Der Preis der Stabilität sind Fahrminuten: die stabile Paarung ist bei gleicher Paarzahl meist teurer als die billigste und hat oft weniger Paare - die Demo misst, wie viel. Und **wer vorschlägt, entscheidet**: der Vorschlagende bekommt seine beste, der Empfänger seine schlechteste stabile Paarung.
 """
 )
 st.caption(
@@ -120,6 +120,8 @@ st.caption(
 with st.expander("So funktioniert Gale–Shapley", expanded=True):
     st.markdown(
         """
+**Der Graph.** Fahrzeuge und Aufträge sind die **Ecken**, ein mögliches Paar (das Fahrzeug erreicht den Auftrag in der Reichweite) ist eine **Kante**. Es gibt **zwei Seiten**: Kanten laufen immer von einem Fahrzeug zu einem Auftrag, nie von Fahrzeug zu Fahrzeug oder von Auftrag zu Auftrag. Einen solchen Graphen nennt man **bipartit**. Auf der Karte liegen beide Seiten gemischt; unter **Darstellung → Zwei Seiten** stehen die Fahrzeuge links und die Aufträge rechts, und jeder Vorschlag läuft von einer Spalte zur anderen.
+
 1. **Vorlieben:** jede Seite ordnet die Partner, die in Frage kommen (Reichweite): Fahrzeuge ordnen Aufträge, Aufträge ordnen Fahrzeuge. Die Listen sind strikt und können unterschiedlich lang sein.
 2. **Vorschlagen:** ein Vorschlagender ohne Partner fragt den nächsten Auftrag (bzw. das nächste Fahrzeug) auf seiner Liste, von oben nach unten.
 3. **Halten:** der Empfänger hält den Vorschlag vorläufig, wenn er noch frei ist oder den Vorschlagenden seinem jetzigen Halter **vorzieht** (der wird verdrängt und fragt weiter unten). Sonst lehnt er ab.
@@ -181,7 +183,7 @@ with st.sidebar:
 # --- Vorlieben und Ablauf ------------------------------------------------------------------------------------------------------------------
 
 st.markdown("## 🎯 Vorlieben und Ablauf")
-step_col, pref_col, prop_col, play_col = st.columns([4, 4, 3, 2])
+step_col, pref_col, prop_col, layout_col, play_col = st.columns([4, 4, 3, 3, 2])
 with pref_col:
     if net_key in C.LIST_NETS:
         pref, noise = "dist", 0
@@ -203,6 +205,10 @@ with pref_col:
 with prop_col:
     proposer = st.radio("Vorschlagende", list(C.PROPOSER_LABELS), key="proposer_radio", format_func=lambda k: C.PROPOSER_LABELS[k],
                         help="Wer vorschlägt, bekommt seine beste stabile Paarung; die andere Seite die schlechteste. Bei nur einer stabilen Paarung ist das gleichgültig.")
+
+with layout_col:
+    layout = st.radio("Darstellung", list(C.LAYOUT_LABELS), key="layout_radio", format_func=lambda k: C.LAYOUT_LABELS[k],
+                      help="Karte: Fahrzeuge und Aufträge liegen dort, wo sie auf der Karte sind. Zwei Seiten: dieselben Fahrzeuge links, dieselben Aufträge rechts, jeder Vorschlag und jede Kante läuft von einer Seite zur anderen - ein bipartiter Graph. Vorschläge, Paare und Vorlieben sind in beiden Darstellungen dieselben.")
 
 params = (net_key, int(n), int(m), int(reach), int(ballung), int(seed))
 if net_key in C.FIXED_NETS:
@@ -227,7 +233,7 @@ with step_col:
 with play_col:
     auto_play = st.button("▶️ Abspielen", width="stretch", disabled=n_events == 0)
 sync_query_params({"net_select": net_key, "pref_radio": pref if net_key not in C.LIST_NETS else st.session_state.get("pref_radio", C.DEFAULT_PREF), "noise_slider": int(noise) if pref == "noise" else int(st.session_state.get(KEPT["noise_slider"], C.DEFAULT_NOISE)),
-                   "proposer_radio": proposer, "n_slider": int(n), "m_slider": int(m), "reach_slider": int(reach), "ballung_slider": int(ballung), "seed_input": int(seed)})
+                   "proposer_radio": proposer, "layout_radio": layout, "n_slider": int(n), "m_slider": int(m), "reach_slider": int(reach), "ballung_slider": int(ballung), "seed_input": int(seed)})
 view_slot = st.empty()
 matched_series, rejected_series = _series(params)
 L_P = "F" if proposer == "V" else "A"
@@ -282,7 +288,7 @@ def _render(k):
         ev_k = res.events[k - 1] if k > 0 else None
         c1, c2 = st.columns([3, 2])
         c1.markdown(f"**Nach {k} von {n_events} Vorschlägen** - " + _event_text(k))
-        c1.plotly_chart(build_gs_map(sc, pairs_now, mv, mo, ev_k, proposer), width="stretch", key=f"gs_map_{k}")
+        c1.plotly_chart(build_gs_map(sc, pairs_now, mv, mo, ev_k, proposer, layout=layout), width="stretch", key=f"gs_map_{k}")
         c2.markdown("**Verlauf**")
         c2.plotly_chart(build_progress(matched_series, rejected_series, k), width="stretch", key=f"gs_progress_{k}")
         if ev_k is not None:
@@ -310,7 +316,7 @@ if auto_play:
 else:
     _render(step)
 
-st.caption("Quadrate sind Fahrzeuge, Kreise Aufträge (ausgefüllt: haben einen vorläufigen Partner, hohl: frei); blaue Linien halten Paare vorläufig. Das letzte Ereignis ist hervorgehoben: grüne Linie = Vorschlag angenommen, orange = ein Halter wird verdrängt, rot gestrichelt = abgelehnt; "
+st.caption("Quadrate sind Fahrzeuge, Kreise Aufträge (ausgefüllt: haben einen vorläufigen Partner, hohl: frei); blaue Linien halten Paare vorläufig. In der Darstellung „Zwei Seiten“ stehen die Fahrzeuge links und die Aufträge rechts (innerhalb jeder Spalte nach Lage der möglichen Partner geordnet, damit sich wenige Kanten kreuzen); Vorschläge und Paare sind dieselben wie auf der Karte. Das letzte Ereignis ist hervorgehoben: grüne Linie = Vorschlag angenommen, orange = ein Halter wird verdrängt, rot gestrichelt = abgelehnt; "
            "grüner Ring = der Vorschlagende, roter Ring = der Verdrängte. Im Verlauf: grün = wie viele Vorschlagende gerade versorgt sind, rot = bisherige Ablehnungen und Verdrängungen.")
 
 st.markdown("---")
@@ -474,7 +480,7 @@ st.markdown(
     """
 | Annahme | Was passiert, wenn sie verletzt ist | Wer setzt an |
 |---|---|---|
-| **Es gibt zwei getrennte Seiten** | Fahrzeuge und Aufträge sind zwei Gruppen. Sollen sich Fahrer untereinander paaren (Mitbewohner), kann es **gar keine** stabile Paarung geben. | **Stabile Mitbewohner** (gebaut) |
+| **Der Graph ist bipartit (zwei Seiten)** | Kanten gibt es nur zwischen Fahrzeugen und Aufträgen. Soll dagegen jeder mit jedem gepaart werden können (eine einzige Gruppe, etwa Mitbewohner, die sich zu Zweiergruppen zusammenfinden), kann es **gar keine** stabile Paarung geben. | **Stabile Mitbewohner** (gebaut) |
 | **Die Vorlieben sind strikt** | Bei Gleichstand in den Listen gibt es schwache und starke Stabilität; die Eindeutigkeit bei reiner Entfernung hängt an unserem Index-Tie-Break. | (außerhalb der Linie) |
 | **Jeder Agent nimmt genau einen Partner** | Krankenhäuser mit mehreren Stellen (Kapazitäten) brauchen die Variante mit Kontingenten. | **Krankenhaus-Zulassung** (gebaut) |
 | **Nur Stabilität zählt** | Die stabile Paarung ist oft teurer und hat weniger Paare als das Optimum (Prämie im Median 24,3 % bei Streuung 20; das Optimum ist instabil). Wer Kosten will, nimmt die Ungarische Methode. | **Ungarische Methode**, **Auktionsalgorithmus** (gebaut) |

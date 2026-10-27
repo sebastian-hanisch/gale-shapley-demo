@@ -33,13 +33,14 @@ SETTING_SPECS = {
     "pref_radio": SettingSpec("pref", _choice(C.PREF_LABELS), C.DEFAULT_PREF),
     "noise_slider": SettingSpec("noise", int, C.DEFAULT_NOISE, C.NOISE_MIN, C.NOISE_MAX),
     "proposer_radio": SettingSpec("prop", _choice(C.PROPOSER_LABELS), C.DEFAULT_PROPOSER),
+    "layout_radio": SettingSpec("layout", _choice(C.LAYOUT_LABELS), C.DEFAULT_LAYOUT),
     "n_slider": SettingSpec("n", int, C.DEFAULT_N, C.N_MIN, C.N_MAX),
     "m_slider": SettingSpec("m", int, C.DEFAULT_M, C.M_MIN, C.M_MAX),
     "reach_slider": SettingSpec("reach", int, C.DEFAULT_REACH, C.REACH_MIN, C.REACH_MAX),
     "ballung_slider": SettingSpec("ballung", int, C.DEFAULT_BALLUNG, C.BALLUNG_MIN, C.BALLUNG_MAX),
     "seed_input": SettingSpec("seed", int, C.DEFAULT_SEED, 0, C.SEED_MAX),
 }
-PRESET_KEYS = {"net": "net_select", "pref": "pref_radio", "noise": "noise_slider", "prop": "proposer_radio", "n": "n_slider", "m": "m_slider", "reach": "reach_slider", "ballung": "ballung_slider", "seed": "seed_input"}
+PRESET_KEYS = {"net": "net_select", "pref": "pref_radio", "noise": "noise_slider", "prop": "proposer_radio", "layout": "layout_radio", "n": "n_slider", "m": "m_slider", "reach": "reach_slider", "ballung": "ballung_slider", "seed": "seed_input"}
 # Regler, die bei festen Karten ausgeblendet sind: Streamlit löscht ihren Zustand, sobald sie nicht gezeichnet werden - der zuletzt gewählte Wert bleibt hier erhalten
 # (der Streuungsregler erscheint nur beim Vorliebenmodell mit Streuung und gehört deshalb auch dazu)
 KEPT = {key: f"_kept_{key}" for key in ("n_slider", "m_slider", "reach_slider", "ballung_slider", "seed_input", "noise_slider")}

@@ -59,6 +59,7 @@ Jede hier genannte Zahl ist in `tests/test_claims.py` über die 100 festen Karte
 - **Alle stabilen Paarungen:** Anzahl, Landklinikensatz, Streudiagramm der Rangsummen mit den Extrempaarungen, Optimum und Greedy.
 - **Lohnt sich Lügen?** Erschöpfende Probe auf 5 × 5 und Kürzen auf einen Eintrag.
 - **Wovon hängt es ab?** Streuungs-Sweep, Anzahl gegen Kartengröße, Aufwand gegen Kartengröße mit der Straße.
+- **Zwei Darstellungen desselben Graphen:** als Karte oder als **bipartiter Graph** (Fahrzeuge links, Aufträge rechts, jede Kante und jeder Vorschlag wechselt die Seite); Vorschläge, Paare und Vorlieben sind in beiden dieselben.
 - **Feste Lehrbuchkarten:** die billigste Kante klaut, gegenläufige Vorlieben (2 stabile Paarungen), Knuths 4 × 4 (10 stabile Paarungen), die Straße; **Wo die Annahmen enden.**
 
 ## Modell und Verfahren
